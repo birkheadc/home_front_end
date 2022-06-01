@@ -1,23 +1,29 @@
-import logo from './logo.svg';
 import './App.css';
+import Navbar from './components/navbar/Navbar';
+import Api from './api';
+import MainColumn from './components/mainColumn/MainColumn';
+import { useEffect, useState } from 'react';
 
 function App() {
+
+  const [mainSections, setMainSections] = useState();
+
+  useEffect(() => {
+    const getMainSections = async () => {
+      var sections = await Api.getMainSections();
+      setMainSections(sections);
+    }
+    getMainSections();
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <div className="app">
+      <header>
+        <Navbar />
       </header>
+      <main>
+        <MainColumn sections={mainSections} />
+      </main>
     </div>
   );
 }
